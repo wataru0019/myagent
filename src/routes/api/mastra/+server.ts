@@ -1,7 +1,7 @@
 import { json } from '@sveltejs/kit'
 
 export async function GET() {
-    const getMastra = await fetch('http://localhost:4111/api', {
+    const getMastra = await fetch('https://mastra-myagents.vercel.app/api', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -14,7 +14,7 @@ export async function GET() {
 
 export async function POST({ request }) {
     const body = await request.json()
-    const postMastra = await fetch('http://localhost:4111/api/agents/openAiAgent/generate', {
+    const postMastra = await fetch('https://mastra-myagents.vercel.app/api/agents/openAiAgent/generate', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
