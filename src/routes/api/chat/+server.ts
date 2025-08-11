@@ -35,6 +35,7 @@ const openai = createOpenAI({
 //   return result.toUIMessageStreamResponse();
 // }
 const API_ENDPOINT = "https://mastra-myagents.vercel.app/api/agents/openAiAgent/stream"
+// const API_ENDPOINT = "http://localhost:4111/api/agents/openAiAgent/stream"
 
 export async function POST({ request }) {
   const { messages }: { messages: UIMessage[] } = await request.json();
@@ -63,8 +64,12 @@ export async function POST({ request }) {
         content: content.trim()
       };
     }).filter(msg => msg.content.length > 0);
+
+    const threadId = messages[0].metadata?.threadId || 'default-thread-123';
     
-    console.log('Sending to Mastra:', mastraMessages);
+    const latestMessage = mastraMessages[mastraMessages.length - 1];
+    console.log('Sending to Mastra:', latestMessage);
+    console.log('Thread ID:', threadId);
     
     // MastraのStreamingエンドポイントに直接送信
     const mastraResponse = await fetch(API_ENDPOINT, {
@@ -73,7 +78,11 @@ export async function POST({ request }) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        messages: mastraMessages,
+        messages: latestMessage, // 最新のメッセージのみを送信
+        memory: {
+          resource: "unknown-1",     // ユーザーID
+          thread: threadId // スレッドID（会話ID）
+        }
       }),
     });
 

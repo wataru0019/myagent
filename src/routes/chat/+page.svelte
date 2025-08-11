@@ -2,17 +2,24 @@
   import { Chat } from '@ai-sdk/svelte';
   import { marked } from 'marked';
 
-  let input = '';
+  let input = $state('');
   const chat = new Chat({});
+  let threadId: string = $state('')
+
+  function createThreadId() {
+    threadId = `conversation-${Math.random().toString(36).substring(2, 15)}`;
+  }
 
   function handleSubmit(event: SubmitEvent) {
     event.preventDefault();
+    if (threadId === '') {
+      createThreadId();
+    }
     if (input.trim()) {
-      chat.sendMessage({ text: input });
+      chat.sendMessage({ text: input, metadata: { threadId: threadId } });
       input = '';
     }
   }
-
   // MarkdownをHTMLに変換する関数
   function renderMarkdown(text: string): string {
     return marked.parse(text, {
@@ -78,6 +85,9 @@
             </div>
             <div class="message-bubble">
               {#each message.parts as part, partIndex (partIndex)}
+                {#if typeof part.type === 'string' && part.type.includes('tool')}
+                  <div class="text-content">ツールを使用しています。ツール名：{typeof part.type === 'string' ? part.type.replace(/^tool-/, '') : ''}</div>
+                {/if}
                 {#if part.type === 'text'}
                   <div class="markdown-content">{@html renderMarkdown(part.text)}</div>
                 {/if}
