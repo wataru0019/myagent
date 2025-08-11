@@ -34,7 +34,7 @@ const openai = createOpenAI({
 
 //   return result.toUIMessageStreamResponse();
 // }
-const API_ENDPOINT = "https://mastra-myagents.vercel.app/api/agents/openAiAgent/stream"
+const API_ENDPOINT = "https://heartfelt-heart-production.up.railway.app/api/agents/openAiAgent/stream"
 // const API_ENDPOINT = "http://localhost:4111/api/agents/openAiAgent/stream"
 
 export async function POST({ request }) {
