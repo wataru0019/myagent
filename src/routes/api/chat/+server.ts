@@ -78,11 +78,11 @@ export async function POST({ request }) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        messages: latestMessage, // 最新のメッセージのみを送信
-        memory: {
-          resource: "unknown-1",     // ユーザーID
-          thread: threadId // スレッドID（会話ID）
-        }
+        messages: mastraMessages, // 最新のメッセージのみを送信
+        // memory: {
+        //   resource: "unknown-1",     // ユーザーID
+        //   thread: threadId // スレッドID（会話ID）
+        // }
       }),
     });
 
