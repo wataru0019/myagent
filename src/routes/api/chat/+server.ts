@@ -34,8 +34,8 @@ const openai = createOpenAI({
 
 //   return result.toUIMessageStreamResponse();
 // }
-const API_ENDPOINT = "https://heartfelt-heart-production.up.railway.app/api/agents/openAiAgent/stream"
-// const API_ENDPOINT = "http://localhost:4111/api/agents/openAiAgent/stream"
+const API_ENDPOINT = "https://mastramyagents-production.up.railway.app/api/agents/openAiAgent/stream"
+// const API_ENDPOINT = "http://localhost:3000/api/agents/openAiAgent/stream"
 
 export async function POST({ request }) {
   const { messages }: { messages: UIMessage[] } = await request.json();
